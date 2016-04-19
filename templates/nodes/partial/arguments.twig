@@ -1,0 +1,17 @@
+<table class="table table-condensed table-bordered apidoc__arguments-list">
+    <caption>Arguments</caption>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default value</th>
+    </tr>
+    {% for argument in node.arguments %}
+        <tr>
+            <td class="apidoc__argument-name">{{ argument.name }}</td>
+            <td class="apidoc__argument-type">{{ argument.type }}</td>
+            <td class="apidoc__argument-description">{{ argument.description|raw }}</td>
+            <td class="apidoc__argument-defval">{{ argument.default_value }}</td>
+        </tr>
+    {% endfor %}
+</table>

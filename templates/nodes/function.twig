@@ -1,0 +1,18 @@
+{% extends "nodes/generic.twig" %}
+
+{% block page_title %}Function {{ parent() }}{% endblock %}
+
+{% block node_type %}<small>function</small> {% endblock %}
+
+
+{% block content %}
+    {{ parent() }}
+
+    <dl class="dl-horizontal">
+        <dt>Returns</dt>
+        <dd>{{ node.return_type }} - {{ node.return_description }}</dd>
+    </dl>
+
+    {% include 'nodes/partial/arguments.twig' %}
+    {% include 'nodes/partial/hooks.twig' %}
+{% endblock %}

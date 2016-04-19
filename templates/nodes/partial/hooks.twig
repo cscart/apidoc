@@ -1,0 +1,24 @@
+<table class="table table-condensed table-bordered apidoc__hooks-list">
+    <caption>Hooks</caption>
+    {% for hook in node.hooks %}
+        <tr id="{{ hook.name }}">
+            <td class="apidoc__hook-name">
+                <a class="btn btn-xs" role="button" data-toggle="collapse"
+                   href="#hook-data-{{ hook.name }}" aria-expanded="false"
+                   aria-controls="hook-data-{{ hook.name }}"><span
+                            class="glyphicon glyphicon-chevron-down"></span></a>
+                <a href="#{{ hook.name }}"><span class="glyphicon glyphicon-link"></span></a>
+
+                <i>{{ hook.name }}</i>
+            </td>
+            <td class="apidoc__hook-description">{{ hook.description|raw }}</td>
+        </tr>
+        <tr class="collapse" id="hook-data-{{ hook.name }}">
+            <td colspan="2">
+                {% if hook.arguments is not empty %}
+                    {% include 'nodes/partial/arguments.twig' with {'node': hook} %}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

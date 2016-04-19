@@ -1,0 +1,9 @@
+{% extends "nodes/generic.twig" %}
+
+{% block page_title %}Hook {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ parent() }}
+
+    {% include 'nodes/partial/arguments.twig' %}
+{% endblock %}

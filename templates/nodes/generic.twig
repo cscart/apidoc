@@ -1,0 +1,11 @@
+{% extends "layout.twig" %}
+
+{% block page_title %}"{{ node.name }}" {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1>{% block node_type %}{% endblock %}{{ node.fqn }}</h1>
+    {% block node_name_post %}{% endblock %}
+    <h4><small>{{ node.file }}:{{ node.line }}</small></h4>
+
+    <p>{{ node.description }}</p>
+{% endblock %}

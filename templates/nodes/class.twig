@@ -1,0 +1,81 @@
+{% extends "nodes/generic.twig" %}
+
+{% block page_title %}Class {{ parent() }}{% endblock %}
+
+{% block node_type %}{{ node.is_final ? 'final' }} {{ node.is_abstract ? 'abstract' }}class {% endblock %}
+
+
+{% block node_name_post %}
+    {% if node.extends is not empty %}
+        <h4>
+            <small>extends</small> {{ node.extends }}</h4>
+    {% endif %}
+{% endblock %}
+
+
+{% block content %}
+    {{ parent() }}
+
+    <h3>Properties</h3>
+    {% for property in node.properties %}
+        <div class="apidoc__class-property" id="{{ property.name }}">
+            <h4 class="apidoc__class-property-name">
+                <a href="#{{ property.name }}"><span class="glyphicon glyphicon-link"></span></a>
+                {{ property.name }}
+                <small>{{ property.visibility }} {{ property.is_static ? 'static' }} property</small>
+            </h4>
+            <div class="apidoc__class-property-description">{{ property.description|raw }}</div>
+            <code class="apidoc__class-property-signature">
+                {% spaceless %}
+                    {{ property.visibility }}
+                    {{ property.is_static ? 'static' }}
+                    {{ property.type }}
+                    {{ property.name }}
+                    {{ property.default_value ? '= ' ~ property.default_value }}{{- ';' }}
+                {% endspaceless %}
+            </code>
+        </div>
+    {% endfor %}
+
+
+    <h3>Methods</h3>
+    {% for method in node.methods %}
+        <div class="panel panel-default apidoc__class-method" id="{{ method.name }}()">
+            <div class="panel-heading">
+                <h3 class="panel-title apidoc__class-method-name">
+                    <a href="#{{ method.name }}()"><span class="glyphicon glyphicon-link"></span></a>
+                    {{ method.name }}()
+                    <small>{{ method.visibility }} {{ method.is_abstract ? 'abstract' }} {{ method.is_static ? 'static' }} {{ method.is_final ? 'final' }}
+                        method
+                    </small>
+
+                    <code style="display: inline;" class="pull-right apidoc__class-method-signature">
+                        {% spaceless %}
+                            {{ method.is_abstract ? 'abstract' }}
+                            {{ method.visibility }}
+                            {{ method.is_static ? 'static' }}
+                            {{ method.type }}
+                            {{ method.name }}
+                            {{ '(' -}}
+                            {% for argument in method.arguments %}{{ argument.name }}{{ argument.default_value ? ' = ' ~ argument.default_value }}{{- loop.last ? '' : ', ' }}{% endfor %}
+                            {{- ')' -}}{{- ';' }}
+                        {% endspaceless %}
+                    </code>
+                </h3>
+
+            </div>
+            <div class="panel-body">
+                <p class="lead apidoc__class-method-description">{{ method.description|raw }}</p>
+
+                {% if method.arguments is not empty %}
+                    {% include 'nodes/partial/arguments.twig' with {'node': method} %}
+                {% endif %}
+
+                {% if method.hooks is not empty %}
+                    {% include 'nodes/partial/hooks.twig' with {'node': method} %}
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}
