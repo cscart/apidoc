@@ -71,7 +71,7 @@ class CollectDocBlocksCommand extends Command
     {
         $this->parser_context = new Context();
         $this->parser_context->version = $input->getOption('ver');
-        $this->parser_context->sources_directory = rtrim(realpath($input->getOption('source-path')), '\\/') . '/';;
+        $this->parser_context->sources_directory = rtrim(realpath($input->getOption('source-path')), '\\/') . '/';
         $this->parser_context->exclusion_masks = [
             '_docs/**',
             '_tools/**',
@@ -97,11 +97,19 @@ class CollectDocBlocksCommand extends Command
         $phpdocumentor_tmp_workdir = sys_get_temp_dir() . '/' . uniqid('phpdoc');
         $phpdocumentor_binary_path = realpath(ROOT_DIR . '/phpDocumentor.phar');
 
+        $sources_directory = $this->parser_context->sources_directory;
+
+        $exclusion_masks = array_map(function ($mask) use ($sources_directory) {
+            return $sources_directory . $mask;
+        }, $this->parser_context->exclusion_masks);
+
+        $exclusion_masks = implode(',', $exclusion_masks);
+
         $phpdocumentor_exec_cmd = sprintf('%s -d %s -t %s -p -n --ignore=%s --template=xml',
             $phpdocumentor_binary_path,
             escapeshellarg($this->parser_context->sources_directory),
             escapeshellarg($phpdocumentor_tmp_workdir),
-            escapeshellarg(implode(',', $this->parser_context->exclusion_masks))
+            escapeshellarg($exclusion_masks)
         );
 
         passthru($phpdocumentor_exec_cmd);
