@@ -19,6 +19,7 @@ $app = new \Slim\App([
 
 /** @var \Pimple\Container $container */
 $container = $app->getContainer();
+$container->register(new \CSCart\ApiDoc\Provider\MongoODMProvider());
 
 $container['render'] = function ($container) {
     return function (\Psr\Http\Message\ResponseInterface $response, $template, $variables) use ($container) {
@@ -82,13 +83,17 @@ $container['view'] = function ($container) {
 
     return $view;
 };
-
-
-$version_placeholder = '{version:[0-9]+\.[0-9]+\.[0-9]+|latest}';
-
 $container['pathResolver'] = function ($container) {
     return new \CSCart\ApiDoc\Web\PathResolver($container['router']);
 };
+
+//$debug_bar = new DebugBar\StandardDebugBar();
+//$debug_bar->addCollector($container['mongo.queryCollector']);
+//
+//$debug_bar_renderer = $debug_bar->getJavascriptRenderer('/phpdebugbar');
+//$app->add(new PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware($debug_bar_renderer));
+
+$version_placeholder = '{version:[0-9]+\.[0-9]+\.[0-9]+|latest}';
 
 $app->get("/{$version_placeholder}", function ($request, $response, $args) {
     return $this['render']($response, 'index.twig', [
@@ -214,6 +219,5 @@ $app->get('/', function ($request, \Psr\Http\Message\ResponseInterface $response
         );
 });
 
-$container->register(new \CSCart\ApiDoc\Provider\MongoODMProvider());
 
 $app->run();
