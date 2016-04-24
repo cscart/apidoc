@@ -48,54 +48,80 @@
             display: block;
             border-bottom: 1px solid #000;
         }
+
+        .navbar-brand {
+            line-height: 30px;
+            padding: 10px 10px;
+        }
+        .navbar-brand > img {
+            display: inline;
+            position: relative;
+            top: -4px;
+            margin-right: 10px;
+        }
+        .navbar-nav a {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
-<nav class="navbar navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ path_for('index', {'version': version}) }}">CS-Cart API</a>
-        </div>
-        <p class="navbar-text"><label for="apidoc-version-selector">version</label></p>
-
-        <form class="navbar-form navbar-left form-horizontal">
-            <div class="form-group">
-                <select class="form-control" id="apidoc-version-selector">
-                    {% for availVersion in versions %}
-                        <option value="{{ path_for('index', { 'version': availVersion }) }}" {{ availVersion == version ? ' selected' }}>{{ availVersion }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-        </form>
-
-        <form class="navbar-form navbar-right" role="search">
-            {% block search_input %}
-            <div class="form-group">
-                <input type="text" id="apidoc-search-input" style="width: 300px;" class="form-control" placeholder="Search">
-            </div>
-            {% endblock %}
-        </form>
-    </div><!-- /.container-fluid -->
-</nav>
-
 
 <div class="container">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ path_for('index', {'version': version}) }}">
+                    <img src="http://www.cs-cart.com/skins/base/customer/addons/cscart_site/images/banner/cscart-logo@2x.png"
+                         height="30">
+                    API Documentation</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="http://docs.cs-cart.com/4.3.x/developer_guide/index.html">Developer
+                        documentation</a></li>
+            </ul>
+
+            <form class="navbar-form navbar-right" role="search">
+                {% block search_input %}
+                    <div class="form-group">
+                        <input type="text" id="apidoc-search-input" style="width: 300px;" class="form-control"
+                               placeholder="Search">
+                    </div>
+                {% endblock %}
+            </form>
+            <form class="navbar-form navbar-right">
+                <div class="form-group">
+                    <select class="form-control" id="apidoc-version-selector">
+                        {% for availVersion in versions %}
+                            <option value="{{ path_for('index', { 'version': availVersion }) }}" {{ availVersion == version ? ' selected' }}>{{ availVersion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+    </nav>
     <div class="row">
         {#<div class="col-md-3 apidoc__layout-sidebar">#}
-            {#{% block sidebar %}#}
+        {#{% block sidebar %}#}
 
-            {#{% endblock %}#}
+        {#{% endblock %}#}
         {#</div>#}
         <div class="col-md-12 apidoc__layout-content">{% block content %}{% endblock %}</div>
     </div>
 </div>
 
 <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-75527511-2', 'auto');
     ga('send', 'pageview');

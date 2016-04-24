@@ -74,7 +74,7 @@ $container['template.vars'] = function ($container) {
 
 $container['view'] = function ($container) {
     $view = new \Slim\Views\Twig(__DIR__ . '/../templates', [
-        'cache' => sys_get_temp_dir() . '/cscart_apidoc_tpl',
+        'cache' => false,
     ]);
     $view->addExtension(new \Slim\Views\TwigExtension(
         $container['router'],
