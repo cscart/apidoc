@@ -40,7 +40,12 @@ class PathResolver
 
                 $slug = $generic_node->getName();
             }
-        }elseif ($generic_node instanceof ClassMethod) {
+            $slug = str_replace(
+                ['(', ')'],
+                ['', ''],
+                $slug
+            );
+        } elseif ($generic_node instanceof ClassMethod) {
             $route_type = 'class';
         } elseif ($generic_node instanceof ClassProperty) {
             $route_type = 'class';
@@ -49,8 +54,8 @@ class PathResolver
         }
 
         $slug = str_replace(
-            ['\\', '::', '(', ')'],
-            ['.', '#', '', ''],
+            ['\\', '::'],
+            ['.', '#',],
             $slug
         );
 
